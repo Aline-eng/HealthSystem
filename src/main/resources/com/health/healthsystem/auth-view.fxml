@@ -1,82 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 
-<VBox xmlns:fx="http://javafx.com/fxml"
+<VBox spacing="20" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.health.healthsystem.controller.AuthController"
-      spacing="0" style="-fx-background-color: #f5f5f5;">
+      style="-fx-padding: 30; -fx-background-color: white;">
 
-    <!-- Header -->
-    <HBox style="-fx-background-color: #1565c0; -fx-padding: 16 24 16 24;">
-        <Label text="🏥  Healthcare Management System"
-               style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
-    </HBox>
+    <Label text="Clinic Portal" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
 
-    <TabPane fx:id="authTabPane" tabClosingPolicy="UNAVAILABLE"
-             style="-fx-background-color: #f5f5f5;">
-
-        <!-- ══ LOGIN TAB ══════════════════════════════════════════════════════ -->
+    <TabPane tabClosingPolicy="UNAVAILABLE">
         <Tab text="Login">
-            <VBox spacing="16" style="-fx-padding: 36 48 36 48; -fx-background-color: #f5f5f5;">
-                <Label text="Sign in to your account"
-                       style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1565c0;"/>
-                <Separator/>
-
-                <HBox spacing="12" alignment="CENTER_LEFT">
-                    <Label text="Username:" minWidth="130"/>
-                    <TextField fx:id="loginUsernameField" promptText="Enter username" prefWidth="240"/>
-                </HBox>
-                <HBox spacing="12" alignment="CENTER_LEFT">
-                    <Label text="Password:" minWidth="130"/>
-                    <PasswordField fx:id="loginPasswordField" promptText="Enter password" prefWidth="240"/>
-                </HBox>
-
-                <Button text="Login" onAction="#handleLogin" prefWidth="120"
-                        style="-fx-background-color: #1565c0; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20 8 20; -fx-cursor: hand;"/>
-                <Label fx:id="loginStatusLabel" wrapText="true" maxWidth="360"/>
+            <VBox spacing="10" style="-fx-padding: 20;">
+                <TextField fx:id="loginUsernameField" promptText="Username"/>
+                <PasswordField fx:id="loginPasswordField" promptText="Password"/>
+                <Button text="Login" onAction="#handleLogin" maxWidth="Infinity" style="-fx-background-color: #1565c0; -fx-text-fill: white;"/>
             </VBox>
         </Tab>
-
-        <!-- ══ SIGNUP TAB ═════════════════════════════════════════════════════ -->
-        <Tab text="Sign Up">
-            <VBox spacing="16" style="-fx-padding: 36 48 36 48; -fx-background-color: #f5f5f5;">
-                <Label text="Create a new account"
-                       style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1565c0;"/>
-                <Separator/>
-
-                <HBox spacing="12" alignment="CENTER_LEFT">
-                    <Label text="Username:" minWidth="130"/>
-                    <TextField fx:id="signupUsernameField" promptText="3-20 chars: letters, numbers, _" prefWidth="240"/>
-                </HBox>
-                <HBox spacing="12" alignment="CENTER_LEFT">
-                    <Label text="Password:" minWidth="130"/>
-                    <PasswordField fx:id="signupPasswordField" promptText="Min 8 chars, 1 letter + 1 digit" prefWidth="240"/>
-                </HBox>
-                <HBox spacing="12" alignment="CENTER_LEFT">
-                    <Label text="Confirm Password:" minWidth="130"/>
-                    <PasswordField fx:id="signupConfirmPasswordField" promptText="Repeat password" prefWidth="240"/>
-                </HBox>
-                <HBox spacing="12" alignment="CENTER_LEFT">
-                    <Label text="Role:" minWidth="130"/>
-                    <ComboBox fx:id="signupRoleCombo" prefWidth="160" value="PATIENT">
+        <Tab text="Register">
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                <VBox spacing="10" style="-fx-padding: 20;">
+                    <TextField fx:id="regUsername" promptText="Username (Login ID)"/>
+                    <PasswordField fx:id="regPassword" promptText="Password"/>
+                    <Separator/>
+                    <TextField fx:id="regFullName" promptText="Full Legal Name"/>
+                    <DatePicker fx:id="regBirthDate" promptText="Date of Birth" maxWidth="Infinity"/>
+                    <ComboBox fx:id="regGender" promptText="Gender" maxWidth="Infinity">
                         <items>
-                            <javafx.collections.FXCollections fx:factory="observableArrayList">
-                                <String fx:value="ADMIN"/>
-                                <String fx:value="DOCTOR"/>
-                                <String fx:value="PATIENT"/>
-                            </javafx.collections.FXCollections>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="MALE"/>
+                                <String fx:value="FEMALE"/>
+                                <String fx:value="OTHER"/>
+                            </FXCollections>
                         </items>
                     </ComboBox>
-                </HBox>
-
-                <Button text="Create Account" onAction="#handleSignup" prefWidth="140"
-                        style="-fx-background-color: #1565c0; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20 8 20; -fx-cursor: hand;"/>
-                <Label fx:id="signupStatusLabel" wrapText="true" maxWidth="360"/>
-            </VBox>
+                    <ComboBox fx:id="regRole" promptText="Account Type" maxWidth="Infinity" onAction="#toggleSpecialtyField">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="PATIENT"/>
+                                <String fx:value="DOCTOR"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                    <TextField fx:id="regSpecialty" promptText="Specialization (Doctors only)" visible="false" managed="false"/>
+                    <Button text="Create Account" onAction="#handleSignup" maxWidth="Infinity"/>
+                </VBox>
+            </ScrollPane>
         </Tab>
-
     </TabPane>
+    <Label fx:id="statusLabel" textFill="red"/>
 </VBox>

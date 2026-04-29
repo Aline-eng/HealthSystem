@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.health.healthsystem.controller.MainController"
+      spacing="0" style="-fx-background-color: #f5f5f5;">
+
+    <!-- Header -->
+    <HBox style="-fx-background-color: #1565c0; -fx-padding: 15 25;" alignment="CENTER_LEFT" spacing="15">
+        <Label text="🏥 Healthcare Management" style="-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="welcomeLabel" style="-fx-text-fill: #e3f2fd;"/>
+        <Button text="Logout" onAction="#handleLogout" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-cursor: hand;"/>
+    </HBox>
+
+    <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <!-- ADMIN TABS -->
+        <Tab fx:id="tabRegisterPatient" text="Register Patient">
+            <VBox spacing="15" style="-fx-padding: 30;">
+                <Label text="Manual Patient Registration" style="-fx-font-weight: bold;"/>
+                <TextField fx:id="patientIdField" promptText="Patient Username"/>
+                <TextField fx:id="patientNameField" promptText="Full Name"/>
+                <Button text="Register" onAction="#handleRegisterPatient"/>
+                <Label fx:id="patientStatusLabel"/>
+            </VBox>
+        </Tab>
+        <Tab fx:id="tabRegisterDoctor" text="Register Doctor">
+            <VBox spacing="15" style="-fx-padding: 30;">
+                <TextField fx:id="doctorIdField" promptText="Doctor Username"/>
+                <TextField fx:id="doctorNameField" promptText="Full Name"/>
+                <TextField fx:id="doctorSpecField" promptText="Specialization"/>
+                <Button text="Register Doctor" onAction="#handleRegisterDoctor"/>
+                <Label fx:id="doctorStatusLabel"/>
+            </VBox>
+        </Tab>
+
+        <Tab fx:id="tabBookAppointmentAdmin" text="Book Appointment">
+            <VBox spacing="15" style="-fx-padding: 30;">
+                <Label text="Schedule Appointment (Admin)" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="adminApptPatientCombo" promptText="Select Patient" prefWidth="300"/>
+                <ComboBox fx:id="adminApptDoctorCombo" promptText="Select Doctor" prefWidth="300"/>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <DatePicker fx:id="adminApptDatePicker" promptText="Select Date" prefWidth="150"/>
+                    <ComboBox fx:id="adminApptHourCombo" promptText="HH" prefWidth="70"/>
+                    <Label text=":"/>
+                    <ComboBox fx:id="adminApptMinuteCombo" promptText="MM" prefWidth="70"/>
+                </HBox>
+
+                <Button text="Book Appointment" onAction="#handleBookAppointment" style="-fx-background-color: #1565c0; -fx-text-fill: white;"/>
+                <Label fx:id="apptStatusLabel"/>
+            </VBox>
+        </Tab>
+
+        <Tab fx:id="tabViewAllAppointments" text="All Appointments">
+            <VBox spacing="10" style="-fx-padding: 20;">
+                <Button text="Refresh" onAction="#handleViewAllAppointments"/>
+                <TextArea fx:id="allAppointmentsArea" editable="false" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </Tab>
+        <Tab fx:id="tabAddRecord" text="Add Record">
+            <VBox spacing="15" style="-fx-padding: 30;">
+                <ComboBox fx:id="adminRecordPatientCombo" promptText="Select Patient" prefWidth="300"/>
+                <TextArea fx:id="recordDataField" promptText="Record details..."/>
+                <Button text="Save Record" onAction="#handleAddRecord"/>
+                <Label fx:id="recordStatusLabel"/>
+            </VBox>
+        </Tab>
+        <Tab fx:id="tabViewRecordsAdmin" text="Patient Records">
+            <VBox spacing="10" style="-fx-padding: 20;">
+                <ComboBox fx:id="adminViewRecordPatientCombo" promptText="Select Patient" onAction="#handleViewRecords"/>
+                <TextArea fx:id="recordsListArea" editable="false" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </Tab>
+
+        <!-- PATIENT TABS -->
+        <Tab fx:id="tabPatientBook" text="Book Appointment">
+            <VBox spacing="15" style="-fx-padding: 30;">
+                <Label text="Book Your Appointment" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="patientSpecialtyFilter" promptText="Filter by Specialty" prefWidth="300"/>
+                <ComboBox fx:id="patientDoctorCombo" promptText="Select Doctor" prefWidth="300"/>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <DatePicker fx:id="patientApptDatePicker" promptText="Select Date" prefWidth="150"/>
+                    <ComboBox fx:id="patientApptHourCombo" promptText="HH" prefWidth="70"/>
+                    <Label text=":"/>
+                    <ComboBox fx:id="patientApptMinuteCombo" promptText="MM" prefWidth="70"/>
+                </HBox>
+
+                <Button text="Book Appointment" onAction="#handlePatientBookAppointment" style="-fx-background-color: #1565c0; -fx-text-fill: white;"/>
+                <Label fx:id="patientApptStatusLabel"/>
+            </VBox>
+        </Tab>
+        <Tab fx:id="tabPatientAppointments" text="My Appointments">
+            <VBox spacing="10" style="-fx-padding: 20;">
+                <Button text="Refresh" onAction="#handleViewPatientAppointments"/>
+                <TextArea fx:id="patientAppointmentsArea" editable="false" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </Tab>
+        <Tab fx:id="tabPatientRecords" text="My Health Records">
+            <VBox spacing="10" style="-fx-padding: 20;">
+                <Button text="Refresh" onAction="#handleViewPatientRecords"/>
+                <TextArea fx:id="patientRecordsArea" editable="false" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </Tab>
+
+        <!-- DOCTOR TABS -->
+        <Tab fx:id="tabDoctorSchedule" text="My Schedule">
+            <VBox spacing="10" style="-fx-padding: 20;">
+                <Button text="Refresh" onAction="#handleViewDoctorSchedule"/>
+                <TextArea fx:id="doctorScheduleArea" editable="false" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </Tab>
+        <Tab fx:id="tabDoctorAddRecord" text="Add Patient Record">
+            <VBox spacing="15" style="-fx-padding: 30;">
+                <ComboBox fx:id="doctorPatientRecordCombo" promptText="Select Patient" prefWidth="300"/>
+                <TextArea fx:id="doctorRecordDataField" promptText="Clinical notes..."/>
+                <Button text="Add Clinical Note" onAction="#handleDoctorAddRecord"/>
+                <Label fx:id="doctorRecordStatusLabel"/>
+            </VBox>
+        </Tab>
+        <Tab fx:id="tabDoctorViewRecords" text="View Patient Files">
+            <VBox spacing="10" style="-fx-padding: 20;">
+                <ComboBox fx:id="doctorViewPatientCombo" promptText="Select Patient" onAction="#handleDoctorViewRecords"/>
+                <TextArea fx:id="doctorPatientRecordsArea" editable="false" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </Tab>
+
+        <!-- Shared -->
+        <Tab fx:id="tabViewDoctors" text="Directory">
+            <VBox spacing="10" style="-fx-padding: 20;">
+                <Button text="Load Directory" onAction="#handleViewDoctors"/>
+                <TextArea fx:id="doctorsListArea" editable="false" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </Tab>
+    </TabPane>
+</VBox>
